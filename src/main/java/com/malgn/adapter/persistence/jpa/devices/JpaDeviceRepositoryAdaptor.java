@@ -1,5 +1,7 @@
 package com.malgn.adapter.persistence.jpa.devices;
 
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Repository;
@@ -16,5 +18,10 @@ public class JpaDeviceRepositoryAdaptor implements DeviceRepository {
     @Override
     public Device save(Device device) {
         return deviceRepository.save(device);
+    }
+
+    @Override
+    public Optional<Device> findById(Long id) {
+        return deviceRepository.findById(id);
     }
 }

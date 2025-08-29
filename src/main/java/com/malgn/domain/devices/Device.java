@@ -120,6 +120,9 @@ public class Device extends BaseEntity<Long> {
 
     public void provideToUser(Long userId, LocalDateTime startDate, LocalDateTime endDate) {
 
+        checkArgument(getStatus() == DeviceStatus.WAITING, "device status must be WAITING.");
+        checkArgument(isNotEmpty(startDate), "startDate must be provided.");
+
         this.status = DeviceStatus.USED;
 
         DeviceHistory createdHistory =
