@@ -1,0 +1,10 @@
+services:
+  resources-management-api:
+    container_name: resources-management-api
+    image: ghcr.io/bob-park/on-time-resources-management-api
+    build:
+      dockerfile: ./Dockerfile
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
