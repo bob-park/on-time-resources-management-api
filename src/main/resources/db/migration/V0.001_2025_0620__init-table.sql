@@ -27,6 +27,7 @@ create table devices
 create table devices_histories
 (
     id                 bigserial               not null primary key,
+    history_type       varchar(50)             not null,
     user_id            bigint,
     device_id          bigint                  not null,
     reason             text                    not null,
@@ -58,7 +59,7 @@ create table software
     created_by         varchar(100)            not null,
     last_modified_date timestamp,
     last_modified_by   varchar(100)
-)
+);
 
 -- devices_software
 create table software_histories
@@ -85,7 +86,7 @@ create table users_devices
     device_id bigint    not null,
 
     foreign key (device_id) references devices (id)
-)
+);
 
 -- users_software
 create table users_software
@@ -95,4 +96,4 @@ create table users_software
     software_id bigint    not null,
 
     foreign key (software_id) references software (id)
-)
+);
