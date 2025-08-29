@@ -1,7 +1,5 @@
 package com.malgn.configure.feign;
 
-import static com.google.common.net.HttpHeaders.*;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -10,12 +8,14 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.jwt.Jwt;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Maps;
 
@@ -25,10 +25,6 @@ import feign.RequestInterceptor;
 @Configuration
 public class FeignConfiguration {
 
-    private static final String AUTHORIZED_CLIENT_NAME = "keyflow-auth";
-
-    private final OAuth2AuthorizedClientService authorizedClientService;
-
     @Bean
     public RequestInterceptor requestInterceptor() {
         return requestTemplate -> requestTemplate.headers(getRequestHeaders());
@@ -37,23 +33,23 @@ public class FeignConfiguration {
     private Map<String, Collection<String>> getRequestHeaders() {
         Map<String, Collection<String>> headers = Maps.newHashMap();
 
-        OAuth2AuthenticationToken authentication =
-            (OAuth2AuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
+        String accessToken = null;
 
-        if (authentication.getClass().isAssignableFrom(AnonymousAuthenticationToken.class)) {
-            throw new OAuth2AuthenticationException("unauthorized");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && !authentication.getClass().isAssignableFrom(AnonymousAuthenticationToken.class)) {
+
+            Jwt jwt = (Jwt)authentication.getPrincipal();
+
+            accessToken = jwt.getTokenValue();
         }
 
-        OAuth2AuthorizedClient client =
-            authorizedClientService.loadAuthorizedClient(AUTHORIZED_CLIENT_NAME, authentication.getName());
-
-        if (client == null) {
-            throw new OAuth2AuthenticationException("unauthorized");
+        if (StringUtils.isNotBlank(accessToken)) {
+            headers.put(HttpHeaders.AUTHORIZATION, Collections.singletonList("Bearer " + accessToken));
         }
 
-        String authorizationHeader = "Bearer " + client.getAccessToken().getTokenValue();
-
-        headers.put(AUTHORIZATION, Collections.singletonList(authorizationHeader));
+        headers.put(HttpHeaders.CONTENT_TYPE, Collections.singletonList(MediaType.APPLICATION_JSON_VALUE));
+        headers.put(HttpHeaders.ACCEPT, Collections.singletonList(MediaType.APPLICATION_JSON_VALUE));
 
         return headers;
     }
