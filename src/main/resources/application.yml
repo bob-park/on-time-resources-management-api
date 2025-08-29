@@ -24,7 +24,7 @@ management:
 ## spring
 spring:
   application:
-    name: template
+    name: on-time-resources-management-api
   main:
     banner-mode: log
     allow-bean-definition-overriding: on

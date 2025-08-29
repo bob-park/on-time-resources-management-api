@@ -2,4 +2,4 @@ spring:
   cloud:
     config:
       uri: ${config_server_url}
-      name: template
+      name: on-time-resources-management-api
