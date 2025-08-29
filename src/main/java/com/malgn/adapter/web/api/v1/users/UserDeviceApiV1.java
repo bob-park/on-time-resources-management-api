@@ -2,10 +2,13 @@ package com.malgn.adapter.web.api.v1.users;
 
 import static com.malgn.adapter.web.api.v1.devices.dto.DeviceResponseV1.*;
 
+import java.util.List;
+
 import jakarta.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +19,7 @@ import com.malgn.adapter.web.api.v1.devices.dto.DeviceResponseV1;
 import com.malgn.adapter.web.api.v1.users.dto.DeviceProvideRequestV1;
 import com.malgn.application.devices.model.DeviceResult;
 import com.malgn.application.users.model.DeviceProvideRequest;
+import com.malgn.application.users.provided.UserDeviceFinder;
 import com.malgn.application.users.provided.UserDeviceProvider;
 import com.malgn.common.model.Id;
 import com.malgn.domain.devices.Device;
@@ -26,6 +30,7 @@ import com.malgn.domain.devices.Device;
 public class UserDeviceApiV1 {
 
     private final UserDeviceProvider userDeviceProvider;
+    private final UserDeviceFinder userDeviceFinder;
 
     @PostMapping(path = "{deviceId:\\d+}")
     public DeviceResponseV1 provide(@PathVariable long userId, @PathVariable long deviceId,
@@ -41,6 +46,15 @@ public class UserDeviceApiV1 {
                     .build());
 
         return from(result);
+    }
+
+    @GetMapping(path = "")
+    public List<DeviceResponseV1> devices(@PathVariable long userId) {
+        List<DeviceResult> result = userDeviceFinder.getUserDevices(userId);
+
+        return result.stream()
+            .map(DeviceResponseV1::from)
+            .toList();
     }
 
 }
