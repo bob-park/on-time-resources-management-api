@@ -1,6 +1,4 @@
-package com.malgn.application.devices.required;
-
-import java.util.Optional;
+package com.malgn.adapter.persistence.jpa.devices.query;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,11 +6,7 @@ import org.springframework.data.domain.Pageable;
 import com.malgn.application.devices.model.DeviceFindRequest;
 import com.malgn.domain.devices.Device;
 
-public interface DeviceRepository {
-
-    Device save(Device device);
-
-    Optional<Device> findById(Long id);
+public interface JpaDeviceQueryRepository {
 
     Page<Device> findDevices(DeviceFindRequest findRequest, Pageable pageable);
 
