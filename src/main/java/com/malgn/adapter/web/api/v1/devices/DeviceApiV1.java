@@ -55,6 +55,8 @@ public class DeviceApiV1 {
                     .os(registerRequest.os())
                     .osVersion(registerRequest.osVersion())
                     .cpu(registerRequest.cpu())
+                    .memory(registerRequest.memory())
+                    .storage(registerRequest.storage())
                     .options(registerRequest.options())
                     .ipAddress(registerRequest.ipAddress())
                     .purchaseDate(defaultIfNull(registerRequest.purchaseDate(), LocalDate.now()).atStartOfDay())

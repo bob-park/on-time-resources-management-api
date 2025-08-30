@@ -12,6 +12,8 @@ create table devices
     os                 varchar(100),
     os_version         varchar(20),
     cpu                varchar(100),
+    memory             bigint,
+    storage            bigint,
     status             varchar(50)             not null,
     purchase_date      timestamp               not null,
     ip_address         varchar(100),

@@ -21,6 +21,8 @@ public record DeviceResponseV1(String id,
                                String os,
                                String osVersion,
                                String cpu,
+                               Long memory,
+                               Long storage,
                                DeviceStatus status,
                                LocalDateTime purchaseDate,
                                String ipAddress,
@@ -43,6 +45,8 @@ public record DeviceResponseV1(String id,
             .os(result.os())
             .osVersion(result.osVersion())
             .cpu(result.cpu())
+            .memory(result.memory())
+            .storage(result.storage())
             .status(result.status())
             .purchaseDate(result.purchaseDate())
             .ipAddress(result.ipAddress())

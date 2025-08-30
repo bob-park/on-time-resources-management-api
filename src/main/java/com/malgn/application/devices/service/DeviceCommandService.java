@@ -38,6 +38,8 @@ public class DeviceCommandService implements DeviceRegister {
                 .os(registerRequest.os())
                 .osVersion(registerRequest.osVersion())
                 .cpu(registerRequest.cpu())
+                .memory(registerRequest.memory())
+                .storage(registerRequest.storage())
                 .status(DeviceStatus.WAITING)
                 .purchaseDate(registerRequest.purchaseDate())
                 .ipAddress(registerRequest.ipAddress())

@@ -21,6 +21,8 @@ public record DeviceResult(Long id,
                            String os,
                            String osVersion,
                            String cpu,
+                           Long memory,
+                           Long storage,
                            DeviceStatus status,
                            LocalDateTime purchaseDate,
                            String ipAddress,
@@ -43,6 +45,8 @@ public record DeviceResult(Long id,
             .os(device.getOs())
             .osVersion(device.getOsVersion())
             .cpu(device.getCpu())
+            .memory(device.getMemory())
+            .storage(device.getStorage())
             .status(device.getStatus())
             .purchaseDate(device.getPurchaseDate())
             .ipAddress(device.getIpAddress())

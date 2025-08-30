@@ -64,6 +64,8 @@ public class Device extends BaseEntity<Long> {
     private String os;
     private String osVersion;
     private String cpu;
+    private Long memory;
+    private Long storage;
 
     @Enumerated(EnumType.STRING)
     private DeviceStatus status;
@@ -86,8 +88,8 @@ public class Device extends BaseEntity<Long> {
 
     @Builder
     private Device(Long id, Long teamId, DeviceType deviceType, String name, String description, String model,
-        String manufacturer, String serialNumber, String os, String osVersion, String cpu, DeviceStatus status,
-        LocalDateTime purchaseDate, String ipAddress, Map<String, Object> options) {
+        String manufacturer, String serialNumber, String os, String osVersion, String cpu, Long memory, Long storage,
+        DeviceStatus status, LocalDateTime purchaseDate, String ipAddress, Map<String, Object> options) {
 
         checkArgument(isNotEmpty(deviceType), "deviceType must be provided");
         checkArgument(isNotBlank(name), "name must be provided");
@@ -105,6 +107,8 @@ public class Device extends BaseEntity<Long> {
         this.os = os;
         this.osVersion = osVersion;
         this.cpu = cpu;
+        this.memory = memory;
+        this.storage = storage;
         this.status = status;
         this.purchaseDate = defaultIfNull(purchaseDate, LocalDateTime.now());
         this.ipAddress = ipAddress;

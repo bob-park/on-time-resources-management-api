@@ -18,6 +18,8 @@ public record DeviceRegisterRequest(Long teamId,
                                     String os,
                                     String osVersion,
                                     String cpu,
+                                    Long memory,
+                                    Long storage,
                                     LocalDateTime purchaseDate,
                                     String ipAddress,
                                     Map<String, Object> options) {
