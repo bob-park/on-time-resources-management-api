@@ -4,13 +4,15 @@ WORKDIR /builder
 
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
-ENV TZ=Asia/Seoul
 
 RUN java -Djarmode=tools -jar app.jar extract --layers --destination extracted
 
 ## container
 FROM amazoncorretto:21-al2023-headless
 WORKDIR /app
+ENV TZ=Asia/Seoul
+
+RUN ln -snf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 COPY --from=builder /builder/extracted/dependencies/ ./
 COPY --from=builder /builder/extracted/spring-boot-loader/ ./
