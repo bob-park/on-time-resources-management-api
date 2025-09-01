@@ -2,7 +2,7 @@ package com.malgn.domain.devices;
 
 public enum DeviceType {
 
-    NOTEBOOK,
+    LAPTOP,
     DESKTOP,
     SERVER,
     TV,
