@@ -104,6 +104,10 @@ public class JpaDeviceQueryRepositoryImpl implements JpaDeviceQueryRepository {
             pageable,
             List.of(
                 new QueryDslPath<>("id", device.id),
+                new QueryDslPath<>("deviceType", device.deviceType),
+                new QueryDslPath<>("name", device.name),
+                new QueryDslPath<>("status", device.status),
+                new QueryDslPath<>("purchaseDate", device.purchaseDate),
                 new QueryDslPath<>("createdDate", device.createdDate)));
     }
 
