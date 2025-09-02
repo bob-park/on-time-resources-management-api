@@ -1,6 +1,7 @@
 package com.malgn.adapter.persistence.jpa.devices.query.impl;
 
 import static com.malgn.domain.devices.QDevice.*;
+import static com.malgn.domain.users.QUserDevice.*;
 
 import java.util.List;
 
@@ -37,10 +38,12 @@ public class JpaDeviceQueryRepositoryImpl implements JpaDeviceQueryRepository {
 
         List<Device> content =
             query.selectFrom(device)
+                .leftJoin(device.userDevice, userDevice).fetchJoin()
                 .where(mappingCondition(findRequest))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(sort(pageable))
+                .orderBy(device.id.desc())
                 .fetch();
 
         JPAQuery<Long> countQuery =
