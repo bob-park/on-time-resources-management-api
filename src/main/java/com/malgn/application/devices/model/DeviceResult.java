@@ -1,10 +1,12 @@
 package com.malgn.application.devices.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 import lombok.Builder;
 
+import com.malgn.application.users.model.UserDeviceResult;
 import com.malgn.domain.devices.Device;
 import com.malgn.domain.devices.DeviceStatus;
 import com.malgn.domain.devices.DeviceType;
@@ -30,7 +32,8 @@ public record DeviceResult(Long id,
                            LocalDateTime createdDate,
                            String createdBy,
                            LocalDateTime lastModifiedDate,
-                           String lastModifiedBy) {
+                           String lastModifiedBy,
+                           UserDeviceResult user) {
 
     public static DeviceResult from(Device device) {
         return DeviceResult.builder()
@@ -55,6 +58,7 @@ public record DeviceResult(Long id,
             .createdBy(device.getCreatedBy())
             .lastModifiedDate(device.getLastModifiedDate())
             .lastModifiedBy(device.getLastModifiedBy())
+            .user(device.getUserDevice() != null ? UserDeviceResult.from(device.getUserDevice()) : null)
             .build();
     }
 }

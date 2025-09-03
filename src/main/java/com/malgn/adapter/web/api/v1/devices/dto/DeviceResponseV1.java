@@ -5,6 +5,7 @@ import java.util.Map;
 
 import lombok.Builder;
 
+import com.malgn.adapter.web.api.v1.users.dto.UserDeviceResponseV1;
 import com.malgn.application.devices.model.DeviceResult;
 import com.malgn.domain.devices.DeviceStatus;
 import com.malgn.domain.devices.DeviceType;
@@ -27,6 +28,7 @@ public record DeviceResponseV1(String id,
                                LocalDateTime purchaseDate,
                                String ipAddress,
                                Map<String, Object> options,
+                               UserDeviceResponseV1 user,
                                LocalDateTime createdDate,
                                String createdBy,
                                LocalDateTime lastModifiedDate,
@@ -51,6 +53,7 @@ public record DeviceResponseV1(String id,
             .purchaseDate(result.purchaseDate())
             .ipAddress(result.ipAddress())
             .options(result.options())
+            .user(result.user() != null ? UserDeviceResponseV1.from(result.user()) : null)
             .createdDate(result.createdDate())
             .createdBy(result.createdBy())
             .lastModifiedDate(result.lastModifiedDate())
