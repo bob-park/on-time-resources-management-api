@@ -10,8 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.malgn.application.devices.model.DeviceRegisterRequest;
 import com.malgn.application.devices.model.DeviceResult;
+import com.malgn.application.devices.model.DeviceUpdateRequest;
 import com.malgn.application.devices.provided.DeviceRegister;
 import com.malgn.application.devices.required.DeviceRepository;
+import com.malgn.common.exception.NotFoundException;
+import com.malgn.common.model.Id;
 import com.malgn.domain.devices.Device;
 import com.malgn.domain.devices.DeviceStatus;
 
@@ -51,5 +54,19 @@ public class DeviceCommandService implements DeviceRegister {
         log.debug("registered device. ({})", createdDevice);
 
         return from(createdDevice);
+    }
+
+    @Override
+    public DeviceResult update(Id<Device, Long> id, DeviceUpdateRequest updateRequest) {
+
+        Device device =
+            deviceRepository.findById(id.getValue())
+                .orElseThrow(() -> new NotFoundException(id));
+
+        device.updateStatus(updateRequest.status());
+
+        log.debug("updated device. ({})", device);
+
+        return from(device);
     }
 }

@@ -15,7 +15,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -24,11 +26,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.malgn.adapter.web.api.v1.devices.dto.DeviceRegisterRequestV1;
 import com.malgn.adapter.web.api.v1.devices.dto.DeviceResponseV1;
 import com.malgn.adapter.web.api.v1.devices.dto.DeviceSearchRequestV1;
+import com.malgn.adapter.web.api.v1.devices.dto.DeviceUpdateRequestV1;
 import com.malgn.application.devices.model.DeviceFindRequest;
 import com.malgn.application.devices.model.DeviceRegisterRequest;
 import com.malgn.application.devices.model.DeviceResult;
+import com.malgn.application.devices.model.DeviceUpdateRequest;
 import com.malgn.application.devices.provided.DeviceFinder;
 import com.malgn.application.devices.provided.DeviceRegister;
+import com.malgn.common.model.Id;
+import com.malgn.domain.devices.Device;
 
 @RequiredArgsConstructor
 @RestController
@@ -84,7 +90,20 @@ public class DeviceApiV1 {
                 pageable);
 
         return result.map(DeviceResponseV1::from);
+    }
 
+    @PutMapping(path = "{id:\\d+}")
+    public DeviceResponseV1 updateDevice(@PathVariable long id,
+        @RequestBody @Valid DeviceUpdateRequestV1 updateRequest) {
+
+        DeviceResult result =
+            deviceRegister.update(
+                Id.of(Device.class, id),
+                DeviceUpdateRequest.builder()
+                    .status(updateRequest.status())
+                    .build());
+
+        return from(result);
     }
 
 }

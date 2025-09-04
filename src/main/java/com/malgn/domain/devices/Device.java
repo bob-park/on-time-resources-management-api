@@ -120,6 +120,42 @@ public class Device extends BaseEntity<Long> {
      */
     public void updateStatus(DeviceStatus status) {
         this.status = status;
+
+        String reason = "";
+
+        switch (status) {
+            case LOST -> {
+                reason = "분실";
+            }
+            case BROKEN -> {
+                reason = "고장";
+            }
+            case REPAIRING -> {
+                reason = "수리";
+            }
+            case WAITING -> {
+                this.userDevice = null;
+                reason = "대기";
+            }
+            case EXPORT -> {
+                // 분출 처리
+                reason = "분출";
+            }
+            default -> {
+                // ignore
+            }
+        }
+
+        DeviceHistory createdHistory =
+            DeviceHistory.builder()
+                .historyType(status)
+                .userId(getUserDevice() != null ? getUserDevice().getUserId() : null)
+                .reason(reason)
+                .startDate(LocalDateTime.now())
+                .build();
+
+        addDeviceHistory(createdHistory);
+
     }
 
     public void provideToUser(Long userId, LocalDateTime startDate, LocalDateTime endDate) {
