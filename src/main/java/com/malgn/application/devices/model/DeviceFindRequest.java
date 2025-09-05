@@ -13,5 +13,6 @@ public record DeviceFindRequest(String name,
                                 DeviceStatus status,
                                 String model,
                                 String manufacturer,
-                                String serialNumber) {
+                                String serialNumber,
+                                Long userId) {
 }

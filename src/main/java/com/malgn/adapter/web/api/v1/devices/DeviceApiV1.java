@@ -86,6 +86,7 @@ public class DeviceApiV1 {
                     .model(searchRequest.model())
                     .manufacturer(searchRequest.manufacturer())
                     .serialNumber(searchRequest.serialNumber())
+                    .userId(searchRequest.userId())
                     .build(),
                 pageable);
 

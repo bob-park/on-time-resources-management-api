@@ -65,7 +65,8 @@ public class JpaDeviceQueryRepositoryImpl implements JpaDeviceQueryRepository {
             .and(eqDeviceStatus(findRequest.status()))
             .and(containModel(findRequest.model()))
             .and(containManufacturer(findRequest.manufacturer()))
-            .and(containSerialNumber(findRequest.serialNumber()));
+            .and(containSerialNumber(findRequest.serialNumber()))
+            .and(eqUserId(findRequest.userId()));
 
         return builder;
     }
@@ -100,6 +101,10 @@ public class JpaDeviceQueryRepositoryImpl implements JpaDeviceQueryRepository {
 
     private BooleanExpression containSerialNumber(String serialNumber) {
         return StringUtils.isNotBlank(serialNumber) ? device.serialNumber.containsIgnoreCase(serialNumber) : null;
+    }
+
+    private BooleanExpression eqUserId(Long userId) {
+        return userId != null ? userDevice.userId.eq(userId) : null;
     }
 
     private OrderSpecifier<?>[] sort(Pageable pageable) {
