@@ -1,4 +1,4 @@
-package com.malgn.application.software.required;
+package com.malgn.adapter.persistence.jpa.software.query;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -6,9 +6,8 @@ import org.springframework.data.domain.Pageable;
 import com.malgn.application.software.model.SoftwareFindRequest;
 import com.malgn.domain.software.Software;
 
-public interface SoftwareRepository {
-
-    Software save(Software software);
+public interface JpaSoftwareQueryRepository {
 
     Page<Software> findSoftware(SoftwareFindRequest findRequest, Pageable pageable);
+
 }

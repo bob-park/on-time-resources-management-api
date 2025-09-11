@@ -7,6 +7,7 @@ public enum SoftwarePlatform {
     LINUX,
     ANDROID,
     IOS,
+    WEB,
     ETC;
 
 }

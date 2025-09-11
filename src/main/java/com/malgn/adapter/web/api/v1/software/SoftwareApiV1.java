@@ -9,7 +9,12 @@ import jakarta.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.malgn.adapter.web.api.v1.software.dto.SoftwareRegisterRequestV1;
 import com.malgn.adapter.web.api.v1.software.dto.SoftwareResponseV1;
+import com.malgn.adapter.web.api.v1.software.dto.SoftwareSearchRequestV1;
+import com.malgn.application.software.model.SoftwareFindRequest;
 import com.malgn.application.software.model.SoftwareRegisterRequest;
 import com.malgn.application.software.model.SoftwareResult;
+import com.malgn.application.software.provided.SoftwareFinder;
 import com.malgn.application.software.provided.SoftwareRegister;
 
 @RequiredArgsConstructor
@@ -28,6 +36,7 @@ import com.malgn.application.software.provided.SoftwareRegister;
 public class SoftwareApiV1 {
 
     private final SoftwareRegister softwareRegister;
+    private final SoftwareFinder softwareFinder;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "")
@@ -54,6 +63,22 @@ public class SoftwareApiV1 {
                     .build());
 
         return from(result);
+    }
+
+    @GetMapping(path = "")
+    public Page<SoftwareResponseV1> search(SoftwareSearchRequestV1 searchRequest,
+        @PageableDefault(size = 25, sort = "createdDate", direction = Direction.DESC) Pageable pageable) {
+
+        Page<SoftwareResult> result =
+            softwareFinder.findSoftware(
+                SoftwareFindRequest.builder()
+                    .teamId(searchRequest.teamId())
+                    .name(searchRequest.name())
+                    .status(searchRequest.status())
+                    .build(),
+                pageable);
+
+        return result.map(SoftwareResponseV1::from);
     }
 
 }
