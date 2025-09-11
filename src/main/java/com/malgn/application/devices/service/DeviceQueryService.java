@@ -1,5 +1,7 @@
 package com.malgn.application.devices.service;
 
+import static com.malgn.application.devices.model.DeviceResult.*;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,6 +14,8 @@ import com.malgn.application.devices.model.DeviceFindRequest;
 import com.malgn.application.devices.model.DeviceResult;
 import com.malgn.application.devices.provided.DeviceFinder;
 import com.malgn.application.devices.required.DeviceRepository;
+import com.malgn.common.exception.NotFoundException;
+import com.malgn.common.model.Id;
 import com.malgn.domain.devices.Device;
 
 @Slf4j
@@ -28,5 +32,15 @@ public class DeviceQueryService implements DeviceFinder {
         Page<Device> result = deviceRepository.findDevices(findRequest, pageable);
 
         return result.map(DeviceResult::from);
+    }
+
+    @Override
+    public DeviceResult device(Id<Device, Long> id) {
+        Device device =
+            deviceRepository.findById(id.getValue())
+                .orElseThrow(() -> new NotFoundException(id));
+
+        return from(device);
+
     }
 }

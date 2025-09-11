@@ -93,6 +93,13 @@ public class DeviceApiV1 {
         return result.map(DeviceResponseV1::from);
     }
 
+    @GetMapping(path = "{id:\\d+}")
+    public DeviceResponseV1 getDevice(@PathVariable long id) {
+        DeviceResult result = deviceFinder.device(Id.of(Device.class, id));
+
+        return from(result);
+    }
+
     @PutMapping(path = "{id:\\d+}")
     public DeviceResponseV1 updateDevice(@PathVariable long id,
         @RequestBody @Valid DeviceUpdateRequestV1 updateRequest) {
