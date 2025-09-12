@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 
 import com.malgn.domain.software.SoftwarePlatform;
 
-public record SoftwareRegisterRequestV1(@NotNull Long teamId,
+public record SoftwareRegisterRequestV1(Long teamId,
                                         @NotNull SoftwarePlatform platform,
                                         @NotEmpty String name,
                                         String description,
