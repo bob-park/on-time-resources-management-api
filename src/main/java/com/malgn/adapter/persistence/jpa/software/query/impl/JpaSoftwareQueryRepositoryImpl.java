@@ -81,6 +81,7 @@ public class JpaSoftwareQueryRepositoryImpl implements JpaSoftwareQueryRepositor
                 new QueryDslPath<>("name", software.name),
                 new QueryDslPath<>("platform", software.platform),
                 new QueryDslPath<>("status", software.status),
+                new QueryDslPath<>("purchaseDate", software.purchaseDate),
                 new QueryDslPath<>("createdDate", software.createdDate)));
     }
 }
