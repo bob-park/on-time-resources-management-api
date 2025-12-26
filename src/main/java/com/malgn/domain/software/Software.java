@@ -22,9 +22,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
-
-import io.hypersistence.utils.hibernate.type.json.JsonType;
+import org.hibernate.type.SqlTypes;
 
 import com.malgn.common.entity.BaseEntity;
 import com.malgn.common.entity.annotation.SnowflakeIdGenerateValue;
@@ -55,7 +55,7 @@ public class Software extends BaseEntity<Long> {
     @Enumerated(EnumType.STRING)
     private SoftwareStatus status;
 
-    @Type(JsonType.class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Convert(converter = MapJsonConverter.class)
     private Map<String, Object> options = new HashMap<>();
 

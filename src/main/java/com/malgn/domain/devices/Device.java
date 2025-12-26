@@ -30,9 +30,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.ToString.Exclude;
 
-import org.hibernate.annotations.Type;
-
-import io.hypersistence.utils.hibernate.type.json.JsonType;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import com.malgn.common.entity.BaseEntity;
 import com.malgn.common.entity.annotation.SnowflakeIdGenerateValue;
@@ -73,7 +72,7 @@ public class Device extends BaseEntity<Long> {
     private LocalDateTime purchaseDate;
     private String ipAddress;
 
-    @Type(JsonType.class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Convert(converter = MapJsonConverter.class)
     private Map<String, Object> options = new HashMap<>();
 

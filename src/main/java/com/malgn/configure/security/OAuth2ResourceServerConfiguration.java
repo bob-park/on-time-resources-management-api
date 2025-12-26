@@ -6,7 +6,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.boot.security.oauth2.server.resource.autoconfigure.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
@@ -44,7 +44,7 @@ public class OAuth2ResourceServerConfiguration {
     private final CorsConfigurationSource corsConfigurationSource;
 
     @Bean
-    public SecurityFilterChain resourceSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain resourceSecurityFilterChain(HttpSecurity http) {
 
         http.authorizeHttpRequests(
             requests ->

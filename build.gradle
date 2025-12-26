@@ -1,27 +1,25 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.5.0'
+    id 'org.springframework.boot' version '4.0.0'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'com.github.spotbugs' version '6.2.1'
 }
 
 group = 'com.malgn'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
 ext {
-    malgnStarterVersion = "1.2.2-RC3-2025.08.07"
+    malgnStarterVersion = "2.0.5-RC1"
 
+    springCloudVersion = '2025.1.0'
+    springCloudAwsVersion = "4.0.0-M1"
 
-    springCloudVersion = '2025.0.0'
-    springCloudNetflixVersion = '4.3.0'
-
-    queryDslVersion = "7.0"
-    lombokVersion = "1.18.38"
+    lombokVersion = "1.18.42"
+    queryDslVersion = "7.1"
 }
 
 repositories {
@@ -55,10 +53,12 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
-    // spring cloud bootstrap
+    // spring cloud
+    implementation 'org.springframework.cloud:spring-cloud-commons:5.0.0'
+
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${springCloudNetflixVersion}"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 

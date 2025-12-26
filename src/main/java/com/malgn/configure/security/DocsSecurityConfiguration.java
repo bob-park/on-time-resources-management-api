@@ -19,7 +19,7 @@ public class DocsSecurityConfiguration {
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain docsSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain docsSecurityFilterChain(HttpSecurity http) {
 
         http.securityMatcher(
             PathPatternRequestMatcher.withDefaults()

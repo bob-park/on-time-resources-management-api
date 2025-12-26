@@ -1,5 +1,8 @@
+## base
+FROM amazoncorretto:25.0.1-al2023-headless AS base
+
 ## builder
-FROM amazoncorretto:21-al2023-headless AS builder
+FROM base AS builder
 WORKDIR /builder
 
 ARG JAR_FILE=build/libs/*.jar
@@ -7,8 +10,8 @@ COPY ${JAR_FILE} app.jar
 
 RUN java -Djarmode=tools -jar app.jar extract --layers --destination extracted
 
-## container
-FROM amazoncorretto:21-al2023-headless
+## runner
+FROM base AS runner
 WORKDIR /app
 ENV TZ=Asia/Seoul
 
